@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Downloading latest build…</title>
+    <script>
+      (async () => {
+        try {
+          const res = await fetch("https://api.github.com/repos/danielraffel/pt-releases/releases/latest", {
+            headers: { "Accept": "application/vnd.github+json" }
+          });
+          const json = await res.json();
+          const asset = (json.assets || []).find(a => a.name && a.name.endsWith(".pkg"));
+          if (asset && asset.browser_download_url) {
+            window.location.replace(asset.browser_download_url); // 302-like navigation
+          } else {
+            document.body.innerHTML = `<p>No .pkg asset found on latest release.</p>`;
+          }
+        } catch (e) {
+          document.body.innerHTML = `<p>Couldn’t resolve latest asset. Try the <a href="https://github.com/danielraffel/pt-releases/releases/latest">releases page</a>.</p>`;
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Finding the latest .pkg…</p>
+  </body>
+</html>
