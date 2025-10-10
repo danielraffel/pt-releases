@@ -4,7 +4,7 @@ Repository for pt release artifacts.
 
 ## Installation
 
-Download the latest release from the [Releases](https://github.com/danielraffel/pt-releases/releases) page.
+Download the latest PKG installer [here](https://www.generouscorp.com/pt-releases/docs/latest.html)
 
 ## Update Channels
 
