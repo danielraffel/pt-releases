@@ -91,6 +91,24 @@
         cursor: default;
         pointer-events: none;
       }
+      .download-icons {
+        flex-wrap: nowrap;
+      }
+      .download-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .download-label {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 11px;
+        color: #000;
+        letter-spacing: 0.02em;
+      }
+      html[data-theme="dark"] .download-label {
+        color: #fff;
+      }
     </style>
 
     <script>
@@ -176,12 +194,18 @@
       </div>
 
       <div class="download-icons">
-        <a id="macDownloadLink" class="download-icon" href="#">
-          <img id="macIcon" src="macos.png" alt="Download for macOS">
-        </a>
-        <a id="winDownloadLink" class="download-icon disabled" href="#">
-          <img id="windowsIcon" src="windows.png" alt="Download for Windows">
-        </a>
+        <div class="download-col">
+          <a id="macDownloadLink" class="download-icon" href="#">
+            <img id="macIcon" src="macos.png" alt="Download for macOS">
+          </a>
+          <span class="download-label">Apple Silicon Only</span>
+        </div>
+        <div class="download-col">
+          <a id="winDownloadLink" class="download-icon disabled" href="#">
+            <img id="windowsIcon" src="windows.png" alt="Download for Windows">
+          </a>
+          <span class="download-label">64-bit Only</span>
+        </div>
       </div>
     </div>
   </body>
