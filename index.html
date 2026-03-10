@@ -18,10 +18,28 @@
     <meta name="twitter:image" content="https://raw.githubusercontent.com/danielraffel/pt-releases/refs/heads/main/pt.png">
     <title>Download PlunderTube</title>
     <style>
+      :root {
+        color-scheme: light dark;
+        --page-background: #fff;
+        --title-stripe-primary: #000;
+        --title-stripe-secondary: #555;
+      }
+      html[data-theme="dark"] {
+        --page-background: #000;
+        --title-stripe-primary: #fff;
+        --title-stripe-secondary: #8f8f8f;
+      }
       body {
-        text-align: center;
-        background: #fff;
+        background: var(--page-background);
         padding: 2em;
+        text-align: center;
+        transition: background-color 180ms ease;
+      }
+      .hero {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
       }
       a.ascii-link {
         text-decoration: none;
@@ -34,7 +52,11 @@
         font-size: 10px;
         line-height: 1;
         white-space: pre;
-        background: repeating-linear-gradient(135deg, #000 0 2px, #555 2px 4px);
+        background: repeating-linear-gradient(
+          135deg,
+          var(--title-stripe-primary) 0 2px,
+          var(--title-stripe-secondary) 2px 4px
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: left;
@@ -43,49 +65,114 @@
       a.ascii-link:hover pre {
         filter: brightness(1.5);
       }
+      .download-icons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+      }
+      .download-icon,
+      .download-icon img {
+        border: 0;
+      }
+      .download-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .download-icon img {
+        display: block;
+        width: 120px;
+        height: auto;
+        transform-origin: center;
+        transition: transform 140ms ease, filter 140ms ease;
+      }
+      .download-icon:hover img {
+        filter: brightness(1.06) saturate(1.04);
+        transform: translateY(-1px) scale(1.01);
+      }
+      .download-icon:active img {
+        filter: brightness(0.92) saturate(0.96);
+        transform: translateY(2px) scale(0.97);
+      }
+      .download-icon.disabled {
+        cursor: default;
+      }
     </style>
 
     <script>
-      (async () => {
+      document.addEventListener("DOMContentLoaded", async () => {
+        const darkModeQuery = window.matchMedia
+          ? window.matchMedia("(prefers-color-scheme: dark)")
+          : null;
+        const lightModeQuery = window.matchMedia
+          ? window.matchMedia("(prefers-color-scheme: light)")
+          : null;
+        const mediaQuerySupported = !!(
+          darkModeQuery &&
+          lightModeQuery &&
+          (darkModeQuery.media !== "not all" || lightModeQuery.media !== "not all")
+        );
+
+        const getTimeBasedTheme = () => {
+          const hour = new Date().getHours();
+          return hour >= 18 || hour < 6 ? "dark" : "light";
+        };
+
+        const applyTheme = () => {
+          const theme = mediaQuerySupported
+            ? (darkModeQuery.matches ? "dark" : "light")
+            : getTimeBasedTheme();
+          const macIcon = document.getElementById("macIcon");
+          const windowsIcon = document.getElementById("windowsIcon");
+
+          document.documentElement.dataset.theme = theme;
+          macIcon.src = theme === "dark" ? "macos-dark.png" : "macos.png";
+          windowsIcon.src = theme === "dark" ? "windows-dark.png" : "windows.png";
+        };
+
+        applyTheme();
+
+        if (mediaQuerySupported) {
+          if (darkModeQuery.addEventListener) {
+            darkModeQuery.addEventListener("change", applyTheme);
+          } else if (darkModeQuery.addListener) {
+            darkModeQuery.addListener(applyTheme);
+          }
+        } else {
+          window.setInterval(applyTheme, 60000);
+        }
+
         try {
-          const res = await fetch("https://api.github.com/repos/danielraffel/pt-releases/releases/latest", {
-            headers: { "Accept": "application/vnd.github+json" }
-          });
-          const json = await res.json();
-          const asset = (json.assets || []).find(a => a.name && a.name.endsWith(".pkg"));
+          const res = await fetch("latest.json");
+          const latest = await res.json();
 
-          if (asset && asset.browser_download_url) {
-            // Update the link target dynamically
-            const link = document.getElementById("downloadLink");
-            link.href = asset.browser_download_url;
-            link.target = "_blank"; // open in new tab if clicked
+          const macLink = document.getElementById("macDownloadLink");
+          const winLink = document.getElementById("winDownloadLink");
 
-            // Auto-redirect after a short delay (optional)
-            setTimeout(() => {
-              window.location.replace(asset.browser_download_url);
-            }, 2000);
-          } else {
-            document.body.innerHTML = `<p>No .pkg asset found on latest release.</p>`;
+          if (latest.macos && latest.macos.url) {
+            macLink.href = latest.macos.url;
+            macLink.download = "";
+          }
+
+          if (latest.windows && latest.windows.url) {
+            winLink.href = latest.windows.url;
+            winLink.download = "";
+            winLink.classList.remove("disabled");
           }
         } catch (e) {
-          document.body.innerHTML = `<p>Couldn’t resolve latest asset. Try the <a href="https://github.com/danielraffel/pt-releases/releases/latest">releases page</a>.</p>`;
+          // Silently fall back — icons stay as non-functional links
         }
-      })();
+      });
     </script>
   </head>
 
   <body>
-    <a id="downloadLink" class="ascii-link" href="#">
-      <pre>
-██████████                                       ████                         █████                            
-░░███░░░░███                                     ░░███                        ░░███                             
- ░███   ░░███  ██████  █████ ███ █████ ████████   ░███   ██████   ██████    ███████                             
- ░███    ░███ ███░░███░░███ ░███░░███ ░░███░░███  ░███  ███░░███ ░░░░░███  ███░░███                             
- ░███    ░███░███ ░███ ░███ ░███ ░███  ░███ ░███  ░███ ░███ ░███  ███████ ░███ ░███                             
- ░███    ███ ░███ ░███ ░░███████████   ░███ ░███  ░███ ░███ ░███ ███░░███ ░███ ░███                             
- ██████████  ░░██████   ░░████░████    ████ █████ █████░░██████ ░░████████░░████████                            
-░░░░░░░░░░    ░░░░░░     ░░░░ ░░░░    ░░░░ ░░░░░ ░░░░░  ░░░░░░   ░░░░░░░░  ░░░░░░░░         
-
+    <div class="hero">
+      <a class="ascii-link" href="https://github.com/danielraffel/pt-releases/releases">
+        <pre>
  ███████████  ████                            █████                    ███████████            █████             
 ░░███░░░░░███░░███                           ░░███                    ░█░░░███░░░█           ░░███              
  ░███    ░███ ░███  █████ ████ ████████    ███████   ██████  ████████ ░   ░███  ░  █████ ████ ░███████   ██████ 
@@ -94,7 +181,17 @@
  ░███         ░███  ░███ ░███  ░███ ░███ ░███ ░███ ░███░░░   ░███         ░███     ░███ ░███  ░███ ░███░███░░░  
  █████        █████ ░░████████ ████ █████░░████████░░██████  █████        █████    ░░████████ ████████ ░░██████ 
 ░░░░░        ░░░░░   ░░░░░░░░ ░░░░ ░░░░░  ░░░░░░░░  ░░░░░░  ░░░░░        ░░░░░      ░░░░░░░░ ░░░░░░░░   ░░░░░░  
-      </pre>
-    </a>
+        </pre>
+      </a>
+
+      <div class="download-icons">
+        <a id="macDownloadLink" class="download-icon" href="#">
+          <img id="macIcon" src="macos.png" alt="Download for macOS">
+        </a>
+        <a id="winDownloadLink" class="download-icon disabled" href="#">
+          <img id="windowsIcon" src="windows.png" alt="Download for Windows">
+        </a>
+      </div>
+    </div>
   </body>
 </html>
