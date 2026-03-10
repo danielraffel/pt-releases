@@ -4,7 +4,7 @@
     "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.125/PlunderTube_0.5.125.pkg"
   },
   "windows": {
-    "version": "0.5.105",
-    "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.105-win/PlunderTube-v0.5.105-Windows-x64-Setup.exe"
+    "version": "0.5.108",
+    "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.108-win/PlunderTube-v0.5.108-Windows-x64-Setup.exe"
   }
 }
