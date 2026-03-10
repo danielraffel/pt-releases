@@ -1,10 +1,10 @@
-{
-  "macos": {
-    "version": "0.5.125",
-    "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.125/PlunderTube_0.5.125.pkg"
-  },
-  "windows": {
-    "version": "0.5.108",
-    "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.108-win/PlunderTube-v0.5.108-Windows-x64-Setup.exe"
-  }
+﻿{
+    "macos":  {
+                  "version":  "0.5.125",
+                  "url":  "https://github.com/danielraffel/pt-releases/releases/download/v0.5.125/PlunderTube_0.5.125.pkg"
+              },
+    "windows":  {
+                    "version":  "0.5.109",
+                    "url":  "https://github.com/danielraffel/pt-releases/releases/download/v0.5.109-win/PlunderTube-v0.5.109-Windows-x64-Setup.exe"
+                }
 }
