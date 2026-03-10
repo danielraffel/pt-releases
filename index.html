@@ -41,13 +41,7 @@
         align-items: center;
         gap: 1.5rem;
       }
-      a.ascii-link {
-        text-decoration: none;
-        color: transparent;
-        display: inline-block;
-        cursor: pointer;
-      }
-      a.ascii-link pre {
+      .ascii-title pre {
         font-family: monospace;
         font-size: 10px;
         line-height: 1;
@@ -60,10 +54,6 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: left;
-        transition: filter 0.3s ease;
-      }
-      a.ascii-link:hover pre {
-        filter: brightness(1.5);
       }
       .download-icons {
         display: flex;
@@ -99,6 +89,7 @@
       }
       .download-icon.disabled {
         cursor: default;
+        pointer-events: none;
       }
     </style>
 
@@ -171,7 +162,7 @@
 
   <body>
     <div class="hero">
-      <a class="ascii-link" href="https://github.com/danielraffel/pt-releases/releases">
+      <div class="ascii-title">
         <pre>
  ███████████  ████                            █████                    ███████████            █████             
 ░░███░░░░░███░░███                           ░░███                    ░█░░░███░░░█           ░░███              
@@ -182,7 +173,7 @@
  █████        █████ ░░████████ ████ █████░░████████░░██████  █████        █████    ░░████████ ████████ ░░██████ 
 ░░░░░        ░░░░░   ░░░░░░░░ ░░░░ ░░░░░  ░░░░░░░░  ░░░░░░  ░░░░░        ░░░░░      ░░░░░░░░ ░░░░░░░░   ░░░░░░  
         </pre>
-      </a>
+      </div>
 
       <div class="download-icons">
         <a id="macDownloadLink" class="download-icon" href="#">
