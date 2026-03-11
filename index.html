@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <!-- Open Graph (iMessage, Slack, Discord, etc.) -->
     <meta property="og:title" content="Download PlunderTube">
     <meta property="og:description" content="The latest build is available for download.">
@@ -30,9 +31,11 @@
         --title-stripe-secondary: #8f8f8f;
       }
       body {
+        margin: 0;
         background: var(--page-background);
-        padding: 2em;
+        padding: clamp(1rem, 4vw, 2rem);
         text-align: center;
+        -webkit-text-size-adjust: 100%;
         transition: background-color 180ms ease;
       }
       .hero {
@@ -40,10 +43,15 @@
         flex-direction: column;
         align-items: center;
         gap: 1.5rem;
+        max-width: 100%;
+      }
+      .ascii-title {
+        max-width: 100%;
       }
       .ascii-title pre {
         font-family: monospace;
-        font-size: 10px;
+        margin: 0;
+        font-size: clamp(5px, 1.25vw, 10px);
         line-height: 1;
         white-space: pre;
         background: repeating-linear-gradient(
@@ -111,6 +119,17 @@
       }
       html[data-theme="dark"] .download-label {
         color: #fff;
+      }
+      @media (max-width: 480px) {
+        .download-icons {
+          gap: 0.85rem;
+        }
+        .download-icon img {
+          width: 132px;
+        }
+        .download-label {
+          font-size: 12px;
+        }
       }
     </style>
 
