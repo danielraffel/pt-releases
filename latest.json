@@ -1,7 +1,7 @@
-﻿{
+{
     "macos":  {
-                  "version":  "0.5.125",
-                  "url":  "https://github.com/danielraffel/pt-releases/releases/download/v0.5.125/PlunderTube_0.5.125.pkg"
+                  "version":  "0.5.126",
+                  "url":  "https://github.com/danielraffel/pt-releases/releases/download/v0.5.126/PlunderTube_0.5.126.pkg"
               },
     "windows":  {
                     "version":  "0.5.126",
