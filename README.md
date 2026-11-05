@@ -4,7 +4,7 @@ Repository for pt release artifacts.
 
 ## Installation
 
-Download the latest PKG installer [here](https://www.generouscorp.com/pt-releases/index.html)
+Download the latest macOS or Windows installer at [plundertube.com](https://plundertube.com/).
 
 ## Update Channels
 
