@@ -96,43 +96,20 @@ footer .footer-meta a:hover{text-decoration:underline}
 <section class="divider features wrap" id="features"><h2>Features</h2><div class="feature-list"><div class="feature-item"><strong>Search &amp; discover</strong><span> — Freesound, YouTube, random finds, and pasted URLs.</span></div><div class="feature-item"><strong>16-pad kits</strong><span> — Build, save, and share banks of sounds.</span></div><div class="feature-item"><strong>Play it your way</strong><span> — Pads, keyboard mapping, or automatic slicing.</span></div><div class="feature-item"><strong>Shape audio</strong><span> — Trim, pitch, stretch, loop, and more.</span></div><div class="feature-item"><strong>Resample</strong><span> — Capture an earlier or later moment from a source.</span></div><div class="feature-item"><strong>Drag &amp; drop</strong><span> — Move samples straight into your DAW or sampler.</span></div></div></section>
 <section class="divider end" id="download"><h2>Start sampling.</h2><div class="buttons"><div class="download-unit"><a class="btn mac retro-download" href="https://github.com/danielraffel/pt-releases/releases/latest"><span class="os-icon"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M17.05 12.54c.02 2.17 1.9 2.89 1.92 2.9-.02.06-.3 1.06-.99 2.1-.6.9-1.23 1.8-2.22 1.82-.97.02-1.28-.58-2.39-.58-1.1 0-1.45.56-2.37.6-.96.03-1.69-.96-2.3-1.86-1.25-1.8-2.2-5.1-.92-7.32a3.57 3.57 0 0 1 2.99-1.82c.93-.02 1.81.64 2.39.64.57 0 1.64-.79 2.76-.67.47.02 1.79.19 2.63 1.43-.07.04-1.57.91-1.55 2.76ZM15.2 7.2c.5-.61.84-1.46.75-2.3-.72.03-1.59.48-2.1 1.09-.46.53-.87 1.39-.76 2.21.8.06 1.61-.41 2.11-1Z" transform="translate(0 -1) scale(1.1)"></path></svg></span><span class="download-label">FREE DOWNLOAD FOR</span><strong>macOS</strong></a><span class="download-sub">Apple Silicon only</span><span class="download-format">AU · VST3 · Standalone</span></div><div class="download-unit"><a class="btn windows retro-download" href="https://github.com/danielraffel/pt-releases/releases/latest"><span class="os-icon"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M2 4.1 10.9 3v8.4H2V4.1Zm10.1-1.25L22 1.5v9.9h-9.9V2.85ZM2 12.6h8.9V21L2 19.8v-7.2Zm10.1 0H22v9.9l-9.9-1.35V12.6Z"></path></svg></span><span class="download-label">FREE DOWNLOAD FOR</span><strong>WINDOWS</strong></a><span class="download-sub">64-bit only</span><span class="download-format">VST3 · Standalone</span></div></div></section></main>
 <footer><div class="wrap"><p class="footer-meta">PlunderTube is free to use, made by <a href="https://www.generouscorp.com/" rel="noopener" target="_blank">Generous Corp</a>. <span class="footer-links"><a href="terms.html">Terms of Service</a><span aria-hidden="true"> · </span><a href="licenses.html">Third-party licenses</a></span></p><p>YouTube is a trademark of Google LLC. Freesound is a project of Universitat Pompeu Fabra. PlunderTube is independently developed, powered in part by <a href="https://github.com/yt-dlp/yt-dlp" rel="noopener" target="_blank">yt-dlp</a>. It is not affiliated with, sponsored by, or endorsed by Google, YouTube, Freesound, Universitat Pompeu Fabra, or the yt-dlp project.</p></div></footer><script>const ua=navigator.userAgent.toLowerCase();const isMac=/macintosh|mac os x/.test(ua),isWin=/windows/.test(ua);if(isMac||isWin){document.querySelectorAll(isMac?'.mac':'.windows').forEach(e=>e.classList.add('active'))}
-/* v11: resolve the download buttons to the newest installer that actually exists.
-   Mac  = highest-versioned asset ending in .pkg
-   Win  = highest-versioned asset matching *Windows*Setup*.exe
-   Versions are read from the file name (x.y.z), so tag and naming quirks
-   (v0.5.172 vs v0.5.134-win, PlunderTube.0.5.172.pkg vs PlunderTube_0.5.147.pkg) don't matter.
-   On any failure the buttons keep the /releases/latest fallback already in the HTML. */
+/* Download buttons resolve from latest.json, the one canonical pointer that
+   scripts/publish_release.py (PlunderTube repo) rewrites after each verified
+   macOS or Windows release. Each platform is independent, so macOS and
+   Windows may point at different versions. If latest.json is unavailable the
+   buttons keep the /releases/latest fallback already in the HTML. */
 (async()=>{
-const API='https://api.github.com/repos/danielraffel/pt-releases/releases?per_page=100';
-const RULES={mac:/\.pkg$/i,windows:/windows.*setup.*\.exe$/i};
-const ver=n=>{const m=n.match(/(\d+)\.(\d+)\.(\d+)/);return m?[+m[1],+m[2],+m[3]]:null};
-const newer=(a,b)=>a[0]-b[0]||a[1]-b[1]||a[2]-b[2];
-const apply=found=>{for(const k in found){const f=found[k];if(!f)continue;document.querySelectorAll('a.'+k).forEach(a=>{a.href=f.url;a.title='PlunderTube '+f.v.join('.');a.dataset.version=f.v.join('.')})}};
-let cached=null;try{cached=JSON.parse(sessionStorage.getItem('pt-latest')||'null')}catch(e){}
-if(cached&&Date.now()-cached.t<36e5){apply(cached.found);return}
-const found={mac:null,windows:null};
-try{/* same-origin fallback maintained by the release tooling; the API result below overrides it when newer */
- const lj=await fetch('latest.json',{cache:'no-cache'});if(lj.ok){const j=await lj.json();
-  if(j.macos&&j.macos.url&&ver(j.macos.url))found.mac={url:j.macos.url,v:ver(j.macos.url)};
-  if(j.windows&&j.windows.url&&ver(j.windows.url))found.windows={url:j.windows.url,v:ver(j.windows.url)};apply(found)}
-}catch(e){}
+const ALLOWED='https://github.com/danielraffel/pt-releases/releases/download/';
 try{
- let url=API;
- for(let page=0;page<3&&url;page++){
-  const r=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
-  if(!r.ok)break;
-  for(const rel of await r.json()){
-   if(rel.draft||rel.prerelease)continue;
-   for(const a of rel.assets||[]){
-    const v=ver(a.name);if(!v)continue;
-    for(const k in RULES){if(RULES[k].test(a.name)&&(!found[k]||newer(v,found[k].v)>0))found[k]={url:a.browser_download_url,v}}
-   }
-  }
-  if(found.mac&&found.windows)break;
-  const link=r.headers.get('link')||'';const m=link.match(/<([^>]+)>;\s*rel="next"/);url=m?m[1]:null;
+ const r=await fetch('latest.json',{cache:'no-cache'});if(!r.ok)return;
+ const j=await r.json();
+ for(const [key,cls] of [['macos','mac'],['windows','windows']]){
+  const p=j[key];if(!p||typeof p.url!=='string'||!p.url.startsWith(ALLOWED))continue;
+  document.querySelectorAll('a.'+cls).forEach(a=>{a.href=p.url;a.title='PlunderTube '+p.version;a.dataset.version=p.version});
  }
- apply(found);
- try{sessionStorage.setItem('pt-latest',JSON.stringify({t:Date.now(),found}))}catch(e){}
 }catch(e){}
 })();
 </script></body></html>
