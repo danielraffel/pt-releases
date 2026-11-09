@@ -1,21 +1,24 @@
 {
   "schemaVersion": 2,
   "macos": {
-    "version": "0.5.172",
-    "build": "1233",
-    "tag": "v0.5.172",
-    "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.172/PlunderTube.0.5.172.pkg",
-    "file": "PlunderTube.0.5.172.pkg",
-    "size": 171680539,
-    "sha256": "b1915ba27c2344929b91abb09272a980cc9f993e8a570dd1584ceb5b368079ec"
+    "version": "0.5.174",
+    "build": "1235",
+    "tag": "v0.5.174",
+    "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.174/PlunderTube.0.5.174.pkg",
+    "file": "PlunderTube.0.5.174.pkg",
+    "size": 170066787,
+    "sha256": "cc66e8c8fa354fd9f7ebe4e937300b82f556cffc9f36fdbded9addb8053bd1a9",
+    "sourceCommit": "fceb112cc9605ecc8fff732aff3e0b805fe98693"
   },
   "windows": {
-    "version": "0.5.134",
-    "build": "1194",
-    "tag": "v0.5.134-win",
-    "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.134-win/PlunderTube-v0.5.134-Windows-x64-Setup.exe",
-    "file": "PlunderTube-v0.5.134-Windows-x64-Setup.exe",
-    "size": 11652243,
-    "sha256": "5cd6ec847400a27730248956a498389c79fee6ec86ddf88d7ef325d27009eb7e"
-  }
+    "version": "0.5.174",
+    "build": "1235",
+    "tag": "v0.5.174",
+    "url": "https://github.com/danielraffel/pt-releases/releases/download/v0.5.174/PlunderTube.0.5.174-Windows-x64-Setup.exe",
+    "file": "PlunderTube.0.5.174-Windows-x64-Setup.exe",
+    "size": 9999599,
+    "sha256": "8d7d16d69f705e5f0d6c12138f55e35d7a75c0b29f3f482f2f77dbabf6b46588",
+    "sourceCommit": "fceb112cc9605ecc8fff732aff3e0b805fe98693"
+  },
+  "updated": "2026-11-09T00:36:32Z"
 }
